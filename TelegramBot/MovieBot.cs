@@ -69,7 +69,7 @@ namespace TelegramBot
                         return;
                     }
 
-                    if (message.Text == "Топ фильмов")
+                    if (message.Text.ToLower() ==  "топ фильмов" )
                     {
                         var films = GetTopFilms(7);
 
@@ -91,17 +91,10 @@ namespace TelegramBot
 
         public async Task ShowFilm ( long chat ,FilmModel film )
         {
-
-
-
             await jarvis.SendPhotoAsync(chatId: chat, photo: film.Image);
             await jarvis.SendTextMessageAsync(chatId: chat, "Жанр : " + film.Genre);
             await jarvis.SendTextMessageAsync(chatId : chat , film.Name + "\n" + film.Description);
             await jarvis.SendTextMessageAsync(chatId: chat,  "Рейтинг IMDb: " + film.Rating );
-             
-
-
-
         } 
 
 

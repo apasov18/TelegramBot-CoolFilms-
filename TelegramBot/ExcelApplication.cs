@@ -15,27 +15,27 @@ namespace TelegramBot
         Excel application;
         Workbook book;
         Worksheet sheet;
-        public ExcelApplication(string path) 
+        public ExcelApplication(string path)
         {
             application = new Excel();
-             book = application.Workbooks.Open(path);
+            book = application.Workbooks.Open(path);
             application.Visible = true;
         }
-        public QuestionModel[] GetQuestions() 
+        public QuestionModel[] GetQuestions()
         {
             if (book == null)
             {
                 return new QuestionModel[0];
             }
-             sheet = book.Sheets["Questions"];
+            sheet = book.Sheets["Questions"];
             int count = Count;
             QuestionModel[] questions = new QuestionModel[count];
-            for (int i = 0; i < count;i++)
+            for (int i = 0; i < count; i++)
             {
                 questions[i] = new QuestionModel()
                 {
-                    Question= sheet.Cells[i+1,"A"].Text,
-                    Response = sheet.Cells[i+1,"B"].Text,
+                    Question = sheet.Cells[i + 1, "A"].Text,
+                    Response = sheet.Cells[i + 1, "B"].Text,
                 };
             }
             return questions;
@@ -59,13 +59,10 @@ namespace TelegramBot
                     Description = sheet.Cells[i + 1, "B"].Text,
                     Genre = sheet.Cells[i + 1, "C"].Text,
                     Rating = sheet.Cells[i + 1, "D"].Value2,
-                     Show= sheet.Cells[i + 1, "E"].Value2,
-                     Image= sheet.Cells[i + 1, "F"].Text,
-
-
-
-
+                    Show = sheet.Cells[i + 1, "E"].Value2,
+                    Image = sheet.Cells[i + 1, "F"].Text,
                 };
+
             }
             return questions;
         }
