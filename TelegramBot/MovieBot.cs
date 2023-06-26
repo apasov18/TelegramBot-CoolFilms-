@@ -62,38 +62,49 @@ namespace TelegramBot
                 if (message.Type == MessageType.Text)
 
                 {
-                    if (message.Text == "Рандомный фильм")
-                    {
-                        var film = GetRandomFilm();
-                         await ShowFilm(message.Chat.Id,film);
-                        return;
-                    }
-
-                    if (message.Text.ToLower() ==  "топ фильмов" )
-                    {
-                        var films = GetTopFilms(7);
-
-                        foreach (var film in films)
-                        await ShowFilm(message.Chat.Id, film);
-                        return;
-                    }
-
-
-
-
-                    string responce = GetResponse(message.Text);
-                    await jarvis.SendTextMessageAsync(message.Chat.Id, responce);
+                    await GetTextMessage(message);
                 }
+            }
+        }
 
+        public async Task GetTextMessage (Message message)
+        {
+            if (message.Text.ToLower() == "рандомный фильм")
+            {
+                var film = GetRandomFilm();
+                await ShowFilm(message.Chat.Id, film);
+                return;
+            }
+
+            if (message.Text.ToLower() == "топ фильмов")
+            {
+                var films = GetTopFilms(7);
+
+                foreach (var film in films)
+                    await ShowFilm(message.Chat.Id, film);
+                return;
+            }
+            if (message.Text.ToLower() == "найти фильм")
+            {
+                await jarvis.SendTextMessageAsync(message.Chat.Id, "Выберете тип поиска", replyMarkup: MarkupMenu.SearchMenu);
+                return;
 
             }
+            if (message.Text.ToLower() == "меню")
+            {
+                await jarvis.SendTextMessageAsync(message.Chat.Id, "Вы вернулись в главное меню", replyMarkup: MarkupMenu.MainMAnu);
+                return;
+
+            }
+            string responce = GetResponse(message.Text);
+            await jarvis.SendTextMessageAsync(message.Chat.Id, responce, replyMarkup: MarkupMenu.MainMAnu);
         }
 
         public async Task ShowFilm ( long chat ,FilmModel film )
         {
-            await jarvis.SendPhotoAsync(chatId: chat, photo: film.Image);
-            await jarvis.SendTextMessageAsync(chatId: chat, "Жанр : " + film.Genre);
-            await jarvis.SendTextMessageAsync(chatId : chat , film.Name + "\n" + film.Description);
+            var buttons = InlineMenu.SetRate(film);
+            await jarvis.SendPhotoAsync(chatId: chat,caption: "🎬" + film.Name + "🍿" + "\n" + "\n" + film.Description, photo: film.Image,replyMarkup:buttons);
+            await jarvis.SendTextMessageAsync(chatId: chat, "Жанр: " + film.Genre);
             await jarvis.SendTextMessageAsync(chatId: chat,  "Рейтинг IMDb: " + film.Rating );
         } 
 
