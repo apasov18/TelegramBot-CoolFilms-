@@ -9,7 +9,7 @@ namespace TelegramBot
 {
     internal class MarkupMenu
     {
-        public static IReplyMarkup MainMAnu
+        public static IReplyMarkup MainMenu
         {
             get
             {

@@ -20,7 +20,9 @@ namespace TelegramBot
             MovieBot bot = new MovieBot(TOKEM);
             bot.Questions = questions;
             bot.Films = films;
+            bot.StatisticApp = app;
              bot.Start();
+
         }
 
     }

@@ -21,9 +21,10 @@ namespace TelegramBot
                         CallbackData = film.Name + "|10"
                     }
                  },
+
                  new InlineKeyboardButton[]
                 {
-                     new InlineKeyboardButton("Очень хорший выбор")
+                     new InlineKeyboardButton("Очень хороший выбор")
                     {
                         CallbackData = film.Name + "|8"
                     }
@@ -35,9 +36,9 @@ namespace TelegramBot
                         CallbackData = film.Name + "|7"
                     }
                   },
+
                  new InlineKeyboardButton[]
                  {
-
                        new InlineKeyboardButton("Под сон пойдет")
                     {
                         CallbackData = film.Name + "|6"
@@ -50,9 +51,8 @@ namespace TelegramBot
                         CallbackData = film.Name + "|5"
                     }
                  },
-
-
             };
+
             return new InlineKeyboardMarkup(buttons);
         }
     }

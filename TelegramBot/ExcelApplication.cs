@@ -21,6 +21,22 @@ namespace TelegramBot
             book = application.Workbooks.Open(path);
             application.Visible = true;
         }
+        public void Exit ()
+        {
+
+            if (book == null)
+            {
+                application.Quit();
+                return;
+
+            }
+            
+            
+                book.Close(1);
+                application.Quit();
+           
+
+        }
         public QuestionModel[] GetQuestions()
         {
             if (book == null)
@@ -66,6 +82,47 @@ namespace TelegramBot
             }
             return questions;
         }
+
+        public string GetStatistic(FilmModel[] films)
+        {
+            sheet = book.Sheets["Films"];
+            for (int i = 0; i < films.Length; i++)
+            {
+                sheet.Cells[i + 1, "D"] = films[i].Rating;
+                sheet.Cells[i + 1, "E"] = films[i].Show;
+
+            }
+            var charts = sheet.ChartObjects() as ChartObjects;
+            var chartDiagram = charts.Add(300, 0, 300, 300);
+            var chart = chartDiagram.Chart;
+
+            Series series = (Series)chart.SeriesCollection().NewSeries();
+            series.Values = sheet.Range["D1:D13"];
+            series.XValues = sheet.Range["A1:A13"];
+
+            series.ApplyDataLabels();
+            for (int i = 1;i <=series.Points().Count;i++)
+            {
+                Point point = series.Points(i);
+            }
+
+            chart.ChartType = XlChartType.xlColumnClustered;
+
+            string folder = $"{Environment.CurrentDirectory}\\images";
+            if (!Directory.Exists(folder)) 
+            {
+                Directory.CreateDirectory(folder);
+            
+            }
+            string path = $"{folder}\\{DateTime.Now.ToString("dd.MM.yyyy.ss.ffff") + ".png"}";
+            chart.Export(path, "PNG", false);
+
+            
+            return path;
+        }
+
+
+       
         public int Count
         {
             get

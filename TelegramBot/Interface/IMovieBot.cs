@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types.InputFiles;
 using TelegramBot.Enums;
 using TelegramBot.Model;
 
@@ -14,7 +15,7 @@ namespace TelegramBot.Interface
         FilmModel GetRandomFilm();
         FilmModel[] GetTopFilms(int count);
         FilmModel GetByTags(string search,SearchMode mode );
-        string  GetStatisticView();
+        string GetStatisticView();
         string GetResponse(string question);
 
     }
